@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html> <head>
+<meta http-equiv='CONTENT-TYPE' content='text/html; charset=UTF-8' />
+<link rel='StyleSheet' href='DTDDocStyle.css' type='text/css' media='screen' />
+<title>DTD for TestNG</title>
+</head><body>
+<p class='DTDSource'><b><code>testng-1.0.dtd</code></b>: <a href='testng-1.0.dtd.html'>Elements</a> - Entities - <a href='testng-1.0.dtd.org.html'>Source</a> | <a href='intro.html'>Intro</a> - <a href='elementsIndex.html'>Index</a><br /><a href='index.html' target='_top'>FRAMES</a>&nbsp;/&nbsp;<a href='testng-1.0.dtd.org.html' target='_top'>NO FRAMES</a></p><pre id='dtd_source'><span class="dtd_comment">&lt;!--</span>
+
+<span class="dtd_comment">Here is a quick overview of the main parts of this DTD.  For more information,</span>
+<span class="dtd_comment">refer to the &lt;a href=&quot;http://testng.org&quot;&gt;main web site&lt;/a&gt;.</span>
+<span class="dtd_comment">                                                      </span>
+<span class="dtd_comment">A &lt;b&gt;suite&lt;/b&gt; is made of &lt;b&gt;tests&lt;/b&gt; and &lt;b&gt;parameters&lt;/b&gt;.</span>
+<span class="dtd_comment">                                                      </span>
+<span class="dtd_comment">A &lt;b&gt;test&lt;/b&gt; is made of three parts:                        </span>
+
+<span class="dtd_comment">&lt;ul&gt;</span>
+<span class="dtd_comment">&lt;li&gt; &lt;b&gt;parameters&lt;/b&gt;, which override the suite parameters     </span>
+<span class="dtd_comment">&lt;li&gt; &lt;b&gt;groups&lt;/b&gt;, made of two parts                           </span>
+<span class="dtd_comment">&lt;li&gt; &lt;b&gt;classes&lt;/b&gt;, defining which classes are going to be part</span>
+<span class="dtd_comment">  of this test run                                    </span>
+<span class="dtd_comment">&lt;/ul&gt;</span>
+<span class="dtd_comment">                                                      </span>
+<span class="dtd_comment">In turn, &lt;b&gt;groups&lt;/b&gt; are made of two parts:                </span>
+<span class="dtd_comment">&lt;ul&gt;</span>
+<span class="dtd_comment">&lt;li&gt; Definitions, which allow you to group groups into   </span>
+<span class="dtd_comment">  bigger groups                                       </span>
+<span class="dtd_comment">&lt;li&gt; Runs, which defines the groups that the methods     </span>
+<span class="dtd_comment">  must belong to in order to be run during this test  </span>
+<span class="dtd_comment">&lt;/ul&gt;</span>
+<span class="dtd_comment">                                                      </span>
+<span class="dtd_comment">Cedric Beust &amp; Alexandru Popescu                      </span>
+<span class="dtd_dtddoc_tag">@title</span><span class="dtd_comment"> DTD for TestNG                                    </span>
+<span class="dtd_dtddoc_tag">@root</span><span class="dtd_comment"> suite</span>
+
+<span class="dtd_comment">--&gt;</span>
+
+
+<span class="dtd_comment">&lt;!-- A suite is the top-level element of a testng.xml file                  --&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">suite</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">listeners</span><span class="dtd_plain">|</span><span class="dtd_attribute_name">packages</span><span class="dtd_plain">|</span><span class="dtd_attribute_name">test</span><span class="dtd_plain">|</span><span class="dtd_attribute_name">parameter</span><span class="dtd_plain">|</span><span class="dtd_attribute_name">method-selectors</span><span class="dtd_plain">|</span><span class="dtd_attribute_name">suite-files</span><span class="dtd_plain">)* </span><span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!-- Attributes: --&gt;</span>
+<span class="dtd_comment">&lt;!--</span>
+<span class="dtd_dtddoc_tag">@attr  name</span><span class="dtd_comment">        The name of this suite (as it will appear in the reports)</span>
+<span class="dtd_dtddoc_tag">@attr  verbose</span><span class="dtd_comment">     How verbose the output on the console will be.  </span>
+<span class="dtd_comment">                This setting has no impact on the HTML reports.</span>
+<span class="dtd_dtddoc_tag">@attr  parallel</span><span class="dtd_comment">   Whether TestNG should use different threads</span>
+<span class="dtd_comment">                to run your tests (might speed up the process)</span>
+<span class="dtd_dtddoc_tag">@attr  thread-count</span><span class="dtd_comment"> An integer giving the size of the thread pool to use</span>
+<span class="dtd_comment">                if you set parallel.</span>
+<span class="dtd_dtddoc_tag">@attr  annotations</span><span class="dtd_comment">  If &quot;javadoc&quot;, TestNG will look for</span>
+<span class="dtd_comment">                JavaDoc annotations in your sources, otherwise it will</span>
+<span class="dtd_comment">                use JDK5 annotations.</span>
+<span class="dtd_dtddoc_tag">@attr  time-out</span><span class="dtd_comment">     the time to wait in milliseconds before aborting the</span>
+<span class="dtd_comment">                method (if parallel=&quot;methods&quot;) or the test (parallel=&quot;tests&quot;)</span>
+<span class="dtd_comment">--&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ATTLIST</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">suite</span><span class="dtd_plain"> </span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">name</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#REQUIRED</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">verbose</span><span class="dtd_plain"> (0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10) </span><span class="dtd_attribute_value">&quot;1&quot;</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">parallel</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">methods</span><span class="dtd_plain"> | </span><span class="dtd_attribute_name">tests</span><span class="dtd_plain">) </span><span class="dtd_attribute_value">&quot;&quot;</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">thread-count</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_attribute_value">&quot;5&quot;</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">annotations</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">javadoc</span><span class="dtd_plain"> | </span><span class="dtd_attribute_name">JDK5</span><span class="dtd_plain">) </span><span class="dtd_attribute_value">&quot;JDK5&quot;</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">time-out</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#IMPLIED</span>
+<span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!-- A list of XML files that contain more suite descriptions --&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">suite-files</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">suite-file</span><span class="dtd_plain">)* </span><span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">suite-file</span><span class="dtd_plain"> </span><span class="dtd_keyword">ANY</span><span class="dtd_plain"> </span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ATTLIST</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">suite-file</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">path</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#REQUIRED</span>
+<span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!--</span>
+<span class="dtd_comment">Parameters can be defined at the &lt;suite&gt; or at the &lt;test&gt; level.</span>
+<span class="dtd_comment">Parameters defined at the &lt;test&gt; level override parameters of the same name in &lt;suite&gt;</span>
+<span class="dtd_comment">Parameters are used to link Java method parameters to their actual value, defined here.</span>
+<span class="dtd_comment">--&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">parameter</span><span class="dtd_plain"> </span><span class="dtd_keyword">ANY</span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ATTLIST</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">parameter</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">name</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#REQUIRED</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">value</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#REQUIRED</span><span class="dtd_plain"> </span><span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!--</span>
+<span class="dtd_comment">Method selectors define user classes used to select which methods to run.</span>
+<span class="dtd_comment">They need to implement &lt;tt&gt;org.testng.IMethodSelector&lt;/tt&gt; </span>
+<span class="dtd_comment">--&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">method-selectors</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">method-selector</span><span class="dtd_plain">*) </span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">method-selector</span><span class="dtd_plain"> ((</span><span class="dtd_attribute_name">selector-class</span><span class="dtd_plain">)*|</span><span class="dtd_attribute_name">script</span><span class="dtd_plain">) </span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">selector-class</span><span class="dtd_plain"> </span><span class="dtd_keyword">ANY</span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ATTLIST</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">selector-class</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">name</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#REQUIRED</span>
+<span class="dtd_plain">  </span><span class="dtd_attribute_name">priority</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#IMPLIED</span>
+<span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">script</span><span class="dtd_plain"> </span><span class="dtd_keyword">ANY</span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ATTLIST</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">script</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">language</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#REQUIRED</span>
+<span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!--</span>
+<span class="dtd_comment">A test contains parameters and classes.  Additionally, you can define additional groups (&quot;groups of groups&quot;)</span>
+<span class="dtd_comment">--&gt;</span>
+
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">test</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">method-selectors</span><span class="dtd_plain">?,</span><span class="dtd_attribute_name">parameter</span><span class="dtd_plain">*,</span><span class="dtd_attribute_name">groups</span><span class="dtd_plain">?,</span><span class="dtd_attribute_name">packages</span><span class="dtd_plain">?,</span><span class="dtd_attribute_name">classes</span><span class="dtd_plain">?) </span><span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!--</span>
+<span class="dtd_dtddoc_tag">@attr  name</span><span class="dtd_comment">         The name of this test (as it will appear in the reports)</span>
+<span class="dtd_dtddoc_tag">@attr  junit</span><span class="dtd_comment">        Whether to run in JUnit mode.</span>
+<span class="dtd_dtddoc_tag">@attr  verbose</span><span class="dtd_comment">      How verbose the output on the console will be.</span>
+<span class="dtd_comment">                This setting has no impact on the HTML reports.</span>
+<span class="dtd_comment">                Default value: suite level verbose.</span>
+<span class="dtd_dtddoc_tag">@attr  parallel</span><span class="dtd_comment">     Whether TestNG should use different threads</span>
+<span class="dtd_comment">                to run your tests (might speed up the process)</span>
+<span class="dtd_dtddoc_tag">@attr  thread-count</span><span class="dtd_comment"> An integer giving the size of the thread pool to be used if</span>
+<span class="dtd_comment">                parallel mode is used. Overrides the suite level value.</span>
+<span class="dtd_dtddoc_tag">@attr  annotations</span><span class="dtd_comment">  If &quot;javadoc&quot;, TestNG will look for</span>
+<span class="dtd_comment">                JavaDoc annotations in your sources, otherwise it will</span>
+<span class="dtd_comment">                use JDK5 annotations.</span>
+<span class="dtd_dtddoc_tag">@attr  time-out</span><span class="dtd_comment">     the time to wait in milliseconds before aborting</span>
+<span class="dtd_comment">                the method (if parallel=&quot;methods&quot;) or the test (if parallel=&quot;tests&quot;)</span>
+<span class="dtd_dtddoc_tag">@attr  enabled</span><span class="dtd_comment">      flag to enable/disable current test. Default value: true </span>
+<span class="dtd_comment">--&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ATTLIST</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">test</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">name</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#REQUIRED</span><span class="dtd_plain"> </span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">junit</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">true</span><span class="dtd_plain"> | </span><span class="dtd_attribute_name">false</span><span class="dtd_plain">) </span><span class="dtd_attribute_value">&quot;false&quot;</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">verbose</span><span class="dtd_plain"> (0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10) </span><span class="dtd_attribute_value">&quot;1&quot;</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">parallel</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">methods</span><span class="dtd_plain">) </span><span class="dtd_attribute_value">&quot;methods&quot;</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">thread-count</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#IMPLIED</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">annotations</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">javadoc</span><span class="dtd_plain"> | </span><span class="dtd_attribute_name">JDK5</span><span class="dtd_plain">) </span><span class="dtd_attribute_value">&quot;JDK5&quot;</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">time-out</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#IMPLIED</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">enabled</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#IMPLIED</span>
+<span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!--</span>
+<span class="dtd_comment">Defines additional groups (&quot;groups of groups&quot;) and also which groups to include in this test run</span>
+<span class="dtd_comment">--&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">groups</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">define</span><span class="dtd_plain">*,</span><span class="dtd_attribute_name">run</span><span class="dtd_plain">?) </span><span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">define</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">include</span><span class="dtd_plain">*)</span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ATTLIST</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">define</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">name</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#REQUIRED</span><span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!-- Defines which groups to include in the current group of groups         --&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">include</span><span class="dtd_plain"> </span><span class="dtd_keyword">ANY</span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ATTLIST</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">include</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">name</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#REQUIRED</span><span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!-- Defines which groups to exclude from the current group of groups       --&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">exclude</span><span class="dtd_plain"> </span><span class="dtd_keyword">ANY</span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ATTLIST</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">exclude</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">name</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#REQUIRED</span><span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!-- The subtag of groups used to define which groups should be run         --&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">run</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">include</span><span class="dtd_plain">?,</span><span class="dtd_attribute_name">exclude</span><span class="dtd_plain">?)* </span><span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!-- The list of classes to include in this test                            --&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">classes</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">class</span><span class="dtd_plain">*) </span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">class</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">methods</span><span class="dtd_plain">*) </span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ATTLIST</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">class</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">name</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#REQUIRED</span><span class="dtd_plain"> </span><span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!-- The list of packages to include in this test                           --&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">packages</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">package</span><span class="dtd_plain">*) </span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_comment">&lt;!-- The package description. </span>
+<span class="dtd_comment">     If the package name ends with .* then subpackages are included too.</span>
+<span class="dtd_comment">--&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">package</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">include</span><span class="dtd_plain">?,</span><span class="dtd_attribute_name">exclude</span><span class="dtd_plain">?)*</span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ATTLIST</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">package</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">name</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#REQUIRED</span><span class="dtd_plain"> </span><span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!-- The list of methods to include/exclude from this test                 --&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">methods</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">include</span><span class="dtd_plain">?,</span><span class="dtd_attribute_name">exclude</span><span class="dtd_plain">?)* </span><span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_comment">&lt;!-- The list of listeners that will be passed to TestNG --&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">listeners</span><span class="dtd_plain"> (</span><span class="dtd_attribute_name">listener</span><span class="dtd_plain">*) </span><span class="dtd_tag_symbols">&gt;</span>
+
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ELEMENT</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">listener</span><span class="dtd_plain"> </span><span class="dtd_keyword">ANY</span><span class="dtd_tag_symbols">&gt;</span>
+<span class="dtd_tag_symbols">&lt;!</span><span class="dtd_tag_name">ATTLIST</span><span class="dtd_plain"> </span><span class="dtd_attribute_name">listener</span>
+<span class="dtd_plain">    </span><span class="dtd_attribute_name">class-name</span><span class="dtd_plain"> </span><span class="dtd_keyword">CDATA</span><span class="dtd_plain"> </span><span class="dtd_keyword">#REQUIRED</span><span class="dtd_plain"> </span><span class="dtd_tag_symbols">&gt;</span>
+</pre>
+</body></html>
